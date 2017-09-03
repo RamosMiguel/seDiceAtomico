@@ -1,0 +1,132 @@
+object region{
+	var listaDeCiudades=[sprinfild,albuquerque]
+	
+	method laMasProductivaPorCiudad(){
+		listaDeCiudades.forEach({ciudad=>
+			console.println("la mas productiva es "+ciudad.laCentralMasProductiva())
+		})
+	}
+}
+
+object sprinfild{
+	var viento=10
+	var riquezaDelSuelo =0.9
+	var necesidadEnergetica 
+	var listaDeCentrales =[burns,exBosque,elSuspiro] 
+	
+	
+	method produccionDeUnaCentral(unaCentral){
+		return unaCentral.calcularEnergiaProducida(self)
+	}
+	
+	method centralesContaminantes(){
+		var lista =listaDeCentrales.filter({central=> central.esContaminante()})
+		console.println(lista)
+	}
+	
+	method seCubrieronLasNecesidades(){
+		var lista =listaDeCentrales.map({central=> central.calcularEnergiaProducida(self)})
+		return lista.sum()>=necesidadEnergetica
+	}
+	
+	method estoyAlHorno(){
+		if (listaDeCentrales.all({  central=>central.esContaminante()})){
+			return true
+		}else {
+			var listaContaminantes =listaDeCentrales.filter({central=> central.esContaminante()})
+			var lista = listaContaminantes.map({central=> central.calcularEnergiaProducida(self)})
+			 
+			return lista.sum()>(necesidadEnergetica/2)
+		} 
+	}
+	
+	method laCentralMasProdutiva(){
+		return listaDeCentrales.max({ central=> central.calcularEnergiaProducida(self)})
+	}
+	
+	method establecerNecesidadEnergetica(unValor){
+	 	necesidadEnergetica=unValor
+	 }
+	
+	method cualEsTuRiqueza(){
+		return riquezaDelSuelo 
+	}
+	
+	method cualEsLaVelocidadDelViento(){
+		return viento 
+	}
+	 
+	 
+}
+
+object albuquerque{
+	var caudal=150	
+	var listaDeCentrales =[hidroelectrica]
+	
+	method laCentralMasProdutiva(){
+		return listaDeCentrales.max({ central=> central.calcularEnergiaProducida(self)})
+	}
+	
+	method cualEsTuCaudal(){
+		return caudal
+	}
+}
+
+object burns {
+	 var varillas
+	 var produccion =0.1
+	 
+	 
+	 method calcularEnergiaProducida(unaCiudad){
+	 	return varillas*produccion
+	}
+	
+	method esContaminante(){
+		return varillas>20
+	}
+	
+	method establecerVarillas(unasVarillas){
+		varillas=unasVarillas
+	}
+}
+
+object exBosque{
+	var produccion =0.5
+	var capacidad
+	
+	method establecerCapacidad(unaCapacidad){
+		capacidad=unaCapacidad
+	}
+	
+	method calcularEnergiaProducida(unaCiudad){
+	 	return produccion+(capacidad*unaCiudad.cualEsTuRiqueza())
+		
+	}
+	
+	method esContaminante(){
+		return true
+	}
+}
+
+object elSuspiro{
+	var turbinas=1
+	var produccion =0.2
+	
+	method calcularEnergiaProducida(unaCiudad){
+	 	return (produccion*unaCiudad.cualEsLaVelocidadDelViento())*turbinas
+		
+	}
+	
+	method esContaminante(){
+		return false
+	}
+}
+
+object hidroelectrica{
+	var produccion =2
+	
+	method calcularEnergiaProducida(unaCiudad){
+	 	return  produccion*unaCiudad.cualEsTuCaudal() 
+		
+	}
+}
