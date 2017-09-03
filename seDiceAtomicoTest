@@ -1,0 +1,51 @@
+import seDiceAtomico.*
+
+describe "test seDiceAtomico"{
+	test"la central burs con diez varillas produce 1 Mkwh "{
+		burns.establecerVarillas(10)
+		assert.equals(1, burns.calcularEnergiaProducida(sprinfild))
+	}
+	
+	test"la central exBosque produce con 20 de capasidad unos 18,5 Mkwh"{
+		exBosque.establecerCapacidad(20)
+		assert.equals(18.5, exBosque.calcularEnergiaProducida(sprinfild))
+	}
+	
+	test"la central elSuspiro produce 2 Mkwh"{
+		assert.equals(2, elSuspiro.calcularEnergiaProducida(sprinfild))
+	}
+	
+	test"ver si solo exBosque es contaminante"{
+		burns.establecerVarillas(10)
+		exBosque.establecerCapacidad(20)
+		assert.equals(false, burns.esContaminante())
+		assert.equals(true, exBosque.esContaminante())
+		assert.equals(false, elSuspiro.esContaminante())
+		
+	}
+	
+	test"ver si sprinfild cubre su necesidad energetica si es de 20 Mkwh"{
+		burns.establecerVarillas(10)
+		exBosque.establecerCapacidad(20)
+		sprinfild.establecerNecesidadEnergetica(20)
+		assert.equals(true, sprinfild.seCubrieronLasNecesidades())
+		
+	}
+	
+	test"ver si sprinfild esta al horno si tienen una necesidad de 30"{
+		burns.establecerVarillas(10)
+		exBosque.establecerCapacidad(20)
+		sprinfild.establecerNecesidadEnergetica(30)
+		assert.equals(true, sprinfild.estoyAlHorno())
+		
+	}
+	
+	test"verificar si son exBosque y la central hidroelectrica son las mas productivas"{
+		burns.establecerVarillas(10)
+		exBosque.establecerCapacidad(20)
+		assert.equals(exBosque, sprinfild.laCentralMasProdutiva())
+		assert.equals(hidroelectrica, albuquerque.laCentralMasProdutiva())
+		
+		
+	}
+}
